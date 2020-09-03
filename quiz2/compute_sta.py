@@ -41,5 +41,10 @@ def compute_sta(stim, rho, num_timesteps):
     # element-wise manner.
     # 
     # Your code goes here.
-    
+
+    for spike in spike_times:
+        stimulus_chunk = rho[spike-150:spike]
+        sta += stimulus_chunk
+
+    sta = sta/num_spikes
     return sta
