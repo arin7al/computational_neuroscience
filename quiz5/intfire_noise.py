@@ -1,4 +1,5 @@
 from __future__ import print_function
+
 """
 Created on Wed Apr 22 16:02:53 2015
 
@@ -11,7 +12,6 @@ translated to Python by rkp 2015
 import numpy as np
 import matplotlib.pyplot as plt
 
-
 # input current
 I = 1 # nA
 
@@ -23,7 +23,7 @@ R = 40 # M ohms
 # Using h = 1 ms step size, Euler method
 
 V = 0
-tstop = 200
+tstop = 10000
 abs_ref = 5 # absolute refractory period 
 ref = 0 # absolute refractory period counter
 V_trace = []  # voltage trace for plotting
@@ -31,7 +31,7 @@ V_th = 10 # spike threshold
 spiketimes = [] # list of spike times
 
 # input current
-noiseamp = 0 # amplitude of added noise
+noiseamp = 5 # amplitude of added noise
 I += noiseamp*np.random.normal(0, 1, (tstop,)) # nA; Gaussian noise
 
 for t in range(tstop):
@@ -45,9 +45,18 @@ for t in range(tstop):
    if V > V_th:
        V = 50 # emit spike
        ref = abs_ref # set refractory counter
+       spiketimes += [t]
 
    V_trace += [V]
 
 
-plt.plot(V_trace)
+# plt.plot(V_trace)
+# plt.show()
+#
+# plt.figure()
+time_intervals = np.diff(spiketimes)
+print(time_intervals)
+num_of_times = len(time_intervals)
+
+plt.hist(time_intervals, num_of_times, histtype = 'bar', facecolor = 'blue')
 plt.show()
